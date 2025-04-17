@@ -1,0 +1,24 @@
+import pulp
+
+# Define the problem
+problem = pulp.LpProblem("Production_Optimization", pulp.LpMaximize)
+
+# Define the variables
+A = pulp.LpVariable("Product_A", lowBound=0, cat=pulp.LpInteger)
+B = pulp.LpVariable("Product_B", lowBound=0, cat=pulp.LpInteger)
+
+# Define the objective function
+problem += 100 * A + 120 * B
+
+# Define the constraints
+problem += 2 * A + 4 * B <= 240  # Machine X constraint
+problem += 3 * A + 2 * B <= 210  # Machine Y constraint
+
+# Solve the problem
+problem.solve()
+
+# Print the results
+print("Optimal Production Levels:")
+print(f"Product A: {A.varValue} units")
+print(f"Product B: {B.varValue} units")
+print(f"Total Profit: ${100 * A.varValue + 120 * B.varValue:.2f}")
